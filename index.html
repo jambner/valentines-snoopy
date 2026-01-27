@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 A Special Question</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Page 1: Initial teaser page -->
+    <div id="page1" class="page active">
+        <!-- Snoopy peeking over the wall -->
+        <div class="snoopy-background"></div>
+        <div class="content">
+            <h1 class="teaser-text">psst...guess what 👀</h1>
+            <button id="nextBtn" class="main-button">Click me!</button>
+        </div>
+    </div>
+
+    <!-- Page 2: The main question with interactive buttons -->
+    <div id="page2" class="page">
+        <div class="content">
+            <h1 class="question-text">Will you be my Valentine? 💖</h1>
+            
+            <!-- Container for the buttons -->
+            <div class="button-container">
+                <button id="yesBtn" class="choice-button yes-button">YES! 😍</button>
+                <button id="noBtn" class="choice-button no-button">No...</button>
+            </div>
+
+            <!-- Container for the GIF that appears above NO button -->
+            <div id="gifContainer" class="gif-container"></div>
+        </div>
+    </div>
+
+    <!-- Page 3: Celebration page after YES is clicked -->
+    <div id="page3" class="page">
+        <div class="content celebration">
+            <h1 class="celebration-title">Yay! 🎉</h1>
+            <p class="celebration-text">You just made me the happiest! 💕</p>
+            
+            <!-- Dancing Snoopy GIF -->
+            <div class="snoopy-dance">
+                <img src="https://media.tenor.com/JLAeZID_mocAAAAM/dancing-snoopy.gif" alt="Dancing Snoopy">
+            </div>
+            
+            <div class="hearts-animation">
+                <span class="heart">❤️</span>
+                <span class="heart">💖</span>
+                <span class="heart">💝</span>
+                <span class="heart">💗</span>
+                <span class="heart">💓</span>
+                <span class="heart">💕</span>
+            </div>
+            <p class="celebration-subtext">Can't wait to celebrate with you! 🌹</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

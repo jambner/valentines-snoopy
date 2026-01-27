@@ -1,0 +1,376 @@
+/* ========================================
+   RESET AND BASE STYLES
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* ========================================
+   PAGE LAYOUT AND TRANSITIONS
+   ======================================== */
+
+.page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.page.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.content {
+    text-align: center;
+    padding: clamp(1rem, 5vw, 2rem);
+    max-width: 90%;
+}
+
+/* ========================================
+   PAGE 1: TEASER STYLES
+   ======================================== */
+
+#page1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+}
+
+/* Snoopy peeking over the wall on the left side */
+.snoopy-background {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(150px, 25vw, 300px);
+    height: clamp(150px, 25vw, 300px);
+    background-image: url('https://media.tenor.com/z_R18FAni3YAAAAM/snoopy-peep.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+}
+
+.teaser-text {
+    color: white;
+    font-size: clamp(1.5rem, 6vw, 3rem);
+    margin-bottom: clamp(2rem, 8vw, 4rem);
+    animation: fadeInScale 1s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.main-button {
+    background: white;
+    color: #764ba2;
+    border: none;
+    padding: clamp(0.75rem, 3vw, 1.25rem) clamp(2rem, 8vw, 4rem);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeInScale 1s ease 0.3s backwards;
+}
+
+.main-button:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.main-button:active {
+    transform: scale(0.98);
+}
+
+/* ========================================
+   PAGE 2: QUESTION STYLES
+   ======================================== */
+
+#page2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.question-text {
+    color: white;
+    font-size: clamp(1.8rem, 7vw, 3.5rem);
+    margin-bottom: clamp(3rem, 10vw, 5rem);
+    animation: fadeInScale 0.6s ease;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Button container with relative positioning for absolute button placement */
+.button-container {
+    position: relative;
+    display: flex;
+    gap: clamp(1rem, 5vw, 2rem);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: clamp(200px, 30vh, 300px);
+    padding: clamp(1rem, 5vw, 2rem);
+}
+
+.choice-button {
+    border: none;
+    padding: clamp(0.75rem, 3vw, 1.25rem) clamp(2rem, 8vw, 3rem);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeInScale 0.6s ease 0.2s backwards;
+}
+
+.yes-button {
+    background: #4CAF50;
+    color: white;
+    position: relative;
+    z-index: 10;
+}
+
+.yes-button:hover {
+    background: #45a049;
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.yes-button:active {
+    transform: scale(1.05);
+}
+
+.no-button {
+    background: #f44336;
+    color: white;
+    position: absolute;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 5;
+}
+
+/* When NO button moves, it gets a special class for animation */
+.no-button.moving {
+    transition: all 0.2s ease-out;
+}
+
+/* ========================================
+   GIF CONTAINER (appears above NO button)
+   ======================================== */
+
+.gif-container {
+    position: fixed;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gif-container.show {
+    opacity: 1;
+}
+
+.gif-container img {
+    width: clamp(100px, 20vw, 150px);
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   PAGE 3: CELEBRATION STYLES
+   ======================================== */
+
+#page3 {
+    background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+}
+
+.celebration {
+    animation: fadeInScale 0.8s ease;
+}
+
+.celebration-title {
+    color: white;
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    margin-bottom: clamp(1rem, 4vw, 2rem);
+    animation: bounceIn 0.8s ease;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.celebration-text {
+    color: white;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    margin-bottom: clamp(2rem, 6vw, 3rem);
+    animation: fadeInScale 1s ease 0.3s backwards;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Dancing Snoopy GIF */
+.snoopy-dance {
+    margin: clamp(1rem, 4vw, 2rem) auto;
+    animation: fadeInScale 1s ease 0.5s backwards;
+}
+
+.snoopy-dance img {
+    width: clamp(150px, 30vw, 250px);
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.celebration-subtext {
+    color: white;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    animation: fadeInScale 1s ease 0.8s backwards;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   HEARTS ANIMATION
+   ======================================== */
+
+.hearts-animation {
+    display: flex;
+    justify-content: center;
+    gap: clamp(0.5rem, 2vw, 1rem);
+    margin-bottom: clamp(2rem, 6vw, 3rem);
+    flex-wrap: wrap;
+}
+
+.heart {
+    font-size: clamp(1.5rem, 6vw, 3rem);
+    animation: floatHeart 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+/* Stagger the heart animations */
+.heart:nth-child(1) { animation-delay: 0s; }
+.heart:nth-child(2) { animation-delay: 0.2s; }
+.heart:nth-child(3) { animation-delay: 0.4s; }
+.heart:nth-child(4) { animation-delay: 0.6s; }
+.heart:nth-child(5) { animation-delay: 0.8s; }
+.heart:nth-child(6) { animation-delay: 1s; }
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes floatHeart {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Mobile devices */
+@media (max-width: 768px) {
+    .button-container {
+        min-height: 250px;
+    }
+    
+    .choice-button {
+        min-width: 120px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .content {
+        padding: 1rem;
+    }
+    
+    .button-container {
+        min-height: 200px;
+        gap: 1rem;
+    }
+}
+
+/* Tablets and larger */
+@media (min-width: 769px) {
+    .button-container {
+        min-height: 300px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+    .content {
+        max-width: 1000px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus styles for keyboard navigation */
+button:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 4px;
+}
