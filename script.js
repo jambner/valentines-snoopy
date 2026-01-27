@@ -31,6 +31,7 @@ nextBtn.addEventListener('click', () => {
 
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
+const noButtonWrapper = document.getElementById('noButtonWrapper');
 const gifContainer = document.getElementById('gifContainer');
 const buttonContainer = document.querySelector('.button-container');
 
@@ -93,17 +94,17 @@ function checkCollision(bounds1, bounds2) {
 }
 
 /**
- * Generates a random position for the NO button that doesn't collide with YES button
+ * Generates a random position for the NO button wrapper that doesn't collide with YES button
  * @returns {Object} Object with left and top CSS values
  */
 function getRandomPosition() {
     const containerRect = buttonContainer.getBoundingClientRect();
-    const noBtnRect = noBtn.getBoundingClientRect();
+    const wrapperRect = noButtonWrapper.getBoundingClientRect();
     const yesBtnBounds = getElementBounds(yesBtn);
     
-    // Calculate available space for NO button movement
-    const maxX = containerRect.width - noBtnRect.width;
-    const maxY = containerRect.height - noBtnRect.height;
+    // Calculate available space for NO button wrapper movement
+    const maxX = containerRect.width - wrapperRect.width;
+    const maxY = containerRect.height - wrapperRect.height;
     
     let attempts = 0;
     const maxAttempts = 50; // Prevent infinite loop
@@ -117,8 +118,8 @@ function getRandomPosition() {
         const hypotheticalBounds = {
             x: randomX,
             y: randomY,
-            width: noBtnRect.width,
-            height: noBtnRect.height
+            width: wrapperRect.width,
+            height: wrapperRect.height
         };
         
         // Add collision margin (20px buffer around YES button)
@@ -153,10 +154,9 @@ function getRandomPosition() {
 
 /**
  * Displays a reaction GIF above the NO button
- * @param {number} x - X coordinate for GIF position (viewport-relative)
- * @param {number} y - Y coordinate for GIF position (viewport-relative)
+ * The GIF is positioned relative to the wrapper, so it moves with the button
  */
-function showGif(x, y) {
+function showGif() {
     // Create img element for the GIF
     const img = document.createElement('img');
     img.src = reactionGifs[0]; // Always use the Snoopy GIF
@@ -166,11 +166,7 @@ function showGif(x, y) {
     gifContainer.innerHTML = '';
     gifContainer.appendChild(img);
     
-    // Center the GIF horizontally on the button and position above it
-    // Since gifContainer is fixed, we use viewport coordinates
-    const gifWidth = 150; // Approximate width from CSS clamp
-    gifContainer.style.left = `${x - (gifWidth / 2)}px`;
-    gifContainer.style.top = `${y - 180}px`; // Position well above the button
+    // Show the GIF (positioning is handled by CSS)
     gifContainer.classList.add('show');
     
     // Hide GIF after 1.5 seconds
@@ -180,51 +176,44 @@ function showGif(x, y) {
 }
 
 /**
- * Moves the NO button to a new random position when cursor/touch gets close
+ * Moves the NO button wrapper to a new random position when cursor/touch gets close
  */
 function moveNoButton() {
     if (isMoving) return; // Prevent overlapping movements
     
     isMoving = true;
-    noBtn.classList.add('moving');
+    noButtonWrapper.classList.add('moving');
     
-    // Switch to absolute positioning on first move
-    noBtn.style.position = 'absolute';
+    // Switch wrapper to absolute positioning on first move
+    noButtonWrapper.style.position = 'absolute';
     
-    // Get current position for GIF display
-    const currentRect = noBtn.getBoundingClientRect();
-    const containerRect = buttonContainer.getBoundingClientRect();
+    // Show the GIF
+    showGif();
     
-    // Calculate position relative to viewport for fixed positioning
-    const gifX = currentRect.left + (currentRect.width / 2);
-    const gifY = currentRect.top;
-    
-    showGif(gifX, gifY);
-    
-    // Generate and apply new position
+    // Generate and apply new position to the wrapper
     const newPosition = getRandomPosition();
-    noBtn.style.left = newPosition.left;
-    noBtn.style.top = newPosition.top;
+    noButtonWrapper.style.left = newPosition.left;
+    noButtonWrapper.style.top = newPosition.top;
     
     // Re-enable movement after animation completes
     setTimeout(() => {
         isMoving = false;
-        noBtn.classList.remove('moving');
+        noButtonWrapper.classList.remove('moving');
     }, 300);
 }
 
 /**
- * Checks if cursor/touch is near the NO button and moves it if so
+ * Checks if cursor/touch is near the NO button wrapper and moves it if so
  * @param {number} clientX - X coordinate of cursor/touch
  * @param {number} clientY - Y coordinate of cursor/touch
  */
 function checkProximityAndMove(clientX, clientY) {
-    const noBtnBounds = getElementBounds(noBtn);
+    const wrapperBounds = getElementBounds(noButtonWrapper);
     const distance = getDistance(
         clientX - buttonContainer.getBoundingClientRect().left,
         clientY - buttonContainer.getBoundingClientRect().top,
-        noBtnBounds.centerX,
-        noBtnBounds.centerY
+        wrapperBounds.centerX,
+        wrapperBounds.centerY
     );
     
     // If cursor/touch is within detection radius, move the button
@@ -279,11 +268,11 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        // If button has already moved (is absolute), reposition it
-        if (noBtn.style.position === 'absolute') {
+        // If wrapper has already moved (is absolute), reposition it
+        if (noButtonWrapper.style.position === 'absolute') {
             const newPosition = getRandomPosition();
-            noBtn.style.left = newPosition.left;
-            noBtn.style.top = newPosition.top;
+            noButtonWrapper.style.left = newPosition.left;
+            noButtonWrapper.style.top = newPosition.top;
         }
     }, 250);
 });

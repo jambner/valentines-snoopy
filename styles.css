@@ -162,18 +162,24 @@ body {
     transform: scale(1.05);
 }
 
+/* Wrapper for NO button and its GIF - starts inline, becomes absolute when moving */
+.no-button-wrapper {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.no-button-wrapper.moving {
+    position: absolute;
+    transition: all 0.2s ease-out;
+}
+
 .no-button {
     background: #f44336;
     color: white;
-    position: relative; /* Start as relative positioning, will change to absolute when moving */
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
     z-index: 5;
-}
-
-/* When NO button moves, it gets a special class for animation */
-.no-button.moving {
-    transition: all 0.2s ease-out;
-    position: absolute; /* Switch to absolute when moving */
+    margin: 0; /* Remove any default margins */
 }
 
 /* ========================================
@@ -181,7 +187,7 @@ body {
    ======================================== */
 
 .gif-container {
-    position: fixed;
+    position: absolute;
     pointer-events: none;
     z-index: 100;
     opacity: 0;
@@ -189,6 +195,10 @@ body {
     background-color: rgba(255, 0, 0, 0.5); /* Red background for visibility */
     padding: 10px;
     border-radius: 10px;
+    bottom: 100%; /* Position above the NO button */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 10px; /* Gap between GIF and button */
 }
 
 .gif-container.show {
