@@ -165,7 +165,7 @@ body {
 .no-button {
     background: #f44336;
     color: white;
-    position: absolute;
+    position: relative; /* Start as relative positioning, will change to absolute when moving */
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: 5;
 }
@@ -173,6 +173,7 @@ body {
 /* When NO button moves, it gets a special class for animation */
 .no-button.moving {
     transition: all 0.2s ease-out;
+    position: absolute; /* Switch to absolute when moving */
 }
 
 /* ========================================
@@ -185,6 +186,9 @@ body {
     z-index: 100;
     opacity: 0;
     transition: opacity 0.3s ease;
+    background-color: rgba(255, 0, 0, 0.5); /* Red background for visibility */
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .gif-container.show {

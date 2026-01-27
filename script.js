@@ -153,8 +153,8 @@ function getRandomPosition() {
 
 /**
  * Displays a reaction GIF above the NO button
- * @param {number} x - X coordinate for GIF position
- * @param {number} y - Y coordinate for GIF position
+ * @param {number} x - X coordinate for GIF position (viewport-relative)
+ * @param {number} y - Y coordinate for GIF position (viewport-relative)
  */
 function showGif(x, y) {
     // Create img element for the GIF
@@ -166,9 +166,11 @@ function showGif(x, y) {
     gifContainer.innerHTML = '';
     gifContainer.appendChild(img);
     
-    // Position GIF above the NO button's current position
-    gifContainer.style.left = `${x}px`;
-    gifContainer.style.top = `${y - 160}px`; // Position above the button
+    // Center the GIF horizontally on the button and position above it
+    // Since gifContainer is fixed, we use viewport coordinates
+    const gifWidth = 150; // Approximate width from CSS clamp
+    gifContainer.style.left = `${x - (gifWidth / 2)}px`;
+    gifContainer.style.top = `${y - 180}px`; // Position well above the button
     gifContainer.classList.add('show');
     
     // Hide GIF after 1.5 seconds
@@ -186,9 +188,18 @@ function moveNoButton() {
     isMoving = true;
     noBtn.classList.add('moving');
     
+    // Switch to absolute positioning on first move
+    noBtn.style.position = 'absolute';
+    
     // Get current position for GIF display
     const currentRect = noBtn.getBoundingClientRect();
-    showGif(currentRect.left + currentRect.width / 2, currentRect.top);
+    const containerRect = buttonContainer.getBoundingClientRect();
+    
+    // Calculate position relative to viewport for fixed positioning
+    const gifX = currentRect.left + (currentRect.width / 2);
+    const gifY = currentRect.top;
+    
+    showGif(gifX, gifY);
     
     // Generate and apply new position
     const newPosition = getRandomPosition();
@@ -263,31 +274,16 @@ yesBtn.addEventListener('click', () => {
 // INITIALIZATION
 // ========================================
 
-/**
- * Sets initial position for NO button when page loads
- * This ensures it starts in absolute positioning mode
- */
-function initializeNoButton() {
-    // Set NO button to absolute positioning
-    noBtn.style.position = 'absolute';
-    
-    // Get initial random position
-    const initialPosition = getRandomPosition();
-    noBtn.style.left = initialPosition.left;
-    noBtn.style.top = initialPosition.top;
-}
-
-// Initialize NO button position when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Small delay to ensure layout is calculated
-    setTimeout(initializeNoButton, 100);
-});
-
-// Reinitialize on window resize to maintain proper positioning
+// Reinitialize collision detection on window resize
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        initializeNoButton();
+        // If button has already moved (is absolute), reposition it
+        if (noBtn.style.position === 'absolute') {
+            const newPosition = getRandomPosition();
+            noBtn.style.left = newPosition.left;
+            noBtn.style.top = newPosition.top;
+        }
     }, 250);
 });
