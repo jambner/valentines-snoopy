@@ -11,7 +11,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: white;
     min-height: 100vh;
 }
 
@@ -49,7 +49,7 @@ body {
    ======================================== */
 
 #page1 {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: white;
     position: relative;
 }
 
@@ -61,7 +61,7 @@ body {
     transform: translateY(-50%);
     width: clamp(150px, 25vw, 300px);
     height: clamp(150px, 25vw, 300px);
-    background-image: url('media/snoopyPeep.gif');
+    background-image: url('images/snoopy-peek-wall.gif');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
@@ -75,16 +75,16 @@ body {
 }
 
 .teaser-text {
-    color: white;
+    color: black;
     font-size: clamp(1.5rem, 6vw, 3rem);
     margin-bottom: clamp(2rem, 8vw, 4rem);
     animation: fadeInScale 1s ease;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 .main-button {
-    background: white;
-    color: #764ba2;
+    background: black;
+    color: white;
     border: none;
     padding: clamp(0.75rem, 3vw, 1.25rem) clamp(2rem, 8vw, 4rem);
     font-size: clamp(1rem, 4vw, 1.5rem);
@@ -99,6 +99,7 @@ body {
 .main-button:hover {
     transform: scale(1.05) translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: #333;
 }
 
 .main-button:active {
@@ -110,15 +111,15 @@ body {
    ======================================== */
 
 #page2 {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: white;
 }
 
 .question-text {
-    color: white;
+    color: black;
     font-size: clamp(1.8rem, 7vw, 3.5rem);
     margin-bottom: clamp(3rem, 10vw, 5rem);
     animation: fadeInScale 0.6s ease;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 /* Button container with relative positioning for absolute button placement */
@@ -217,7 +218,7 @@ body {
    ======================================== */
 
 #page3 {
-    background: linear-gradient(135deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+    background: white;
 }
 
 .celebration {
@@ -225,19 +226,19 @@ body {
 }
 
 .celebration-title {
-    color: white;
+    color: black;
     font-size: clamp(2.5rem, 10vw, 5rem);
     margin-bottom: clamp(1rem, 4vw, 2rem);
     animation: bounceIn 0.8s ease;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 .celebration-text {
-    color: white;
+    color: black;
     font-size: clamp(1.2rem, 5vw, 2rem);
     margin-bottom: clamp(2rem, 6vw, 3rem);
     animation: fadeInScale 1s ease 0.3s backwards;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 /* Dancing Snoopy GIF */
@@ -254,10 +255,10 @@ body {
 }
 
 .celebration-subtext {
-    color: white;
+    color: black;
     font-size: clamp(1rem, 4vw, 1.5rem);
     animation: fadeInScale 1s ease 0.8s backwards;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 /* ========================================
@@ -385,6 +386,6 @@ body {
 
 /* Focus styles for keyboard navigation */
 button:focus-visible {
-    outline: 3px solid white;
+    outline: 3px solid black;
     outline-offset: 4px;
 }
