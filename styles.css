@@ -165,7 +165,9 @@ body {
 /* Wrapper for NO button and its GIF - starts inline, becomes absolute when moving */
 .no-button-wrapper {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column; /* Stack GIF above button */
+    align-items: center;
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
@@ -187,7 +189,6 @@ body {
    ======================================== */
 
 .gif-container {
-    position: absolute;
     pointer-events: none;
     z-index: 100;
     opacity: 0;
@@ -195,14 +196,13 @@ body {
     background-color: rgba(255, 0, 0, 0.5); /* Red background for visibility */
     padding: 10px;
     border-radius: 10px;
-    bottom: 100%; /* Position above the NO button */
-    left: 50%;
-    transform: translateX(-50%);
     margin-bottom: 10px; /* Gap between GIF and button */
+    display: none; /* Hidden by default */
 }
 
 .gif-container.show {
     opacity: 1;
+    display: block; /* Show when active */
 }
 
 .gif-container img {

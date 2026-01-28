@@ -25,11 +25,15 @@
             <!-- Container for the buttons -->
             <div class="button-container">
                 <button id="yesBtn" class="choice-button yes-button">YES! 😍</button>
-                <button id="noBtn" class="choice-button no-button">No...</button>
+                
+                <!-- NO button wrapper with GIF inside - moves as one unit -->
+                <div id="noButtonWrapper" class="no-button-wrapper">
+                    <!-- GIF container above NO button -->
+                    <div id="gifContainer" class="gif-container"></div>
+                    <!-- NO button -->
+                    <button id="noBtn" class="choice-button no-button">No...</button>
+                </div>
             </div>
-
-            <!-- Container for the GIF that appears above NO button -->
-            <div id="gifContainer" class="gif-container"></div>
         </div>
     </div>
 

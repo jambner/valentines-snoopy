@@ -154,22 +154,10 @@ function getRandomPosition() {
 
 /**
  * Displays a reaction GIF above the NO button
- * Positions it to touch the top of the NO button
+ * Positioning is handled by CSS flexbox within the wrapper
  */
 function showGif() {
     console.log('showGif() called');
-    
-    // Get the current position of the NO button
-    const noBtnRect = noBtn.getBoundingClientRect();
-    
-    console.log('NO Button getBoundingClientRect:', {
-        left: noBtnRect.left,
-        top: noBtnRect.top,
-        width: noBtnRect.width,
-        height: noBtnRect.height,
-        right: noBtnRect.right,
-        bottom: noBtnRect.bottom
-    });
     
     // Create img element for the GIF
     const img = document.createElement('img');
@@ -180,34 +168,13 @@ function showGif() {
     gifContainer.innerHTML = '';
     gifContainer.appendChild(img);
     
-    // The container has 10px padding on all sides (from CSS)
-    const containerPadding = 10;
-    const imgWidth = 150; // From CSS clamp
-    const containerWidth = imgWidth + (containerPadding * 2); // 170px total
-    const containerHeight = 170; // Approximate with padding
-    
-    // Calculate position to center horizontally and touch top of button
-    const leftPosition = noBtnRect.left + (noBtnRect.width / 2) - (containerWidth / 2);
-    const topPosition = noBtnRect.top - containerHeight; // Touch the top of NO button
-    
-    console.log('Setting GIF Container position:', {
-        left: leftPosition,
-        top: topPosition,
-        containerWidth: containerWidth,
-        containerHeight: containerHeight,
-        calculation: `Button top (${noBtnRect.top}) - Container height (${containerHeight}) = ${topPosition}`
-    });
-    
-    gifContainer.style.left = `${leftPosition}px`;
-    gifContainer.style.top = `${topPosition}px`;
-    
-    // Show the GIF
+    // Show the GIF (CSS handles positioning via flexbox)
     gifContainer.classList.add('show');
-    console.log('GIF Container should now be visible with class "show"');
+    console.log('GIF Container shown - positioned above button via flexbox');
 }
 
 /**
- * Moves the NO button wrapper to a new random position when cursor/touch gets close
+ * Moves the NO button wrapper (with GIF) to a new random position when cursor/touch gets close
  */
 function moveNoButton() {
     if (isMoving) return; // Prevent overlapping movements
@@ -218,13 +185,20 @@ function moveNoButton() {
     // Switch wrapper to absolute positioning on first move
     noButtonWrapper.style.position = 'absolute';
     
-    // Generate and apply new position to the wrapper
+    // Show the GIF
+    showGif();
+    
+    // Generate and apply new position to the wrapper (GIF moves with it!)
     const newPosition = getRandomPosition();
     noButtonWrapper.style.left = newPosition.left;
     noButtonWrapper.style.top = newPosition.top;
     
-    // Show the GIF after button has moved (delay allows position to update)
-    showGif();
+    console.log('Moving wrapper to:', newPosition);
+    
+    // Hide GIF after 1.5 seconds
+    setTimeout(() => {
+        gifContainer.classList.remove('show');
+    }, 1500);
     
     // Re-enable movement after animation completes
     setTimeout(() => {
@@ -257,27 +231,7 @@ function checkProximityAndMove(clientX, clientY) {
 // EVENT LISTENERS FOR NO BUTTON EVASION
 // ========================================
 
-// Mouse hover on NO button (desktop) - just show GIF for now
-noBtn.addEventListener('mouseenter', (e) => {
-    console.log('Mouse entered NO button');
-    showGif();
-});
-
-// Mouse leave NO button
-noBtn.addEventListener('mouseleave', (e) => {
-    console.log('Mouse left NO button');
-    gifContainer.classList.remove('show');
-});
-
-// Touch on NO button (mobile) - just show GIF for now
-noBtn.addEventListener('touchstart', (e) => {
-    console.log('Touch on NO button');
-    e.preventDefault();
-    showGif();
-});
-
-/* COMMENTED OUT - Movement logic disabled for testing
-// Mouse movement detection (desktop)
+// Mouse movement detection (desktop) - check proximity and move
 buttonContainer.addEventListener('mousemove', (e) => {
     checkProximityAndMove(e.clientX, e.clientY);
 });
@@ -301,7 +255,6 @@ noBtn.addEventListener('touchstart', (e) => {
     e.preventDefault();
     moveNoButton();
 });
-*/
 
 // ========================================
 // YES BUTTON - PROCEED TO CELEBRATION
