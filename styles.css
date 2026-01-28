@@ -55,39 +55,24 @@ body {
 
 /* Snoopy peeking over the wall on the left side */
 .snoopy-background {
-    position: absolute;
-    left: 0;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    width: 250px;
-    height: 250px;
+
+    /* Responsive sizing */
+    width: clamp(160px, 22vw, 350px);
+    height: clamp(160px, 22vw, 350px);
+
+    left: calc(clamp(-200px, -18vw, -120px) + 105px);
+
     background-image: url('media/snoopyPeek.gif');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: left center;
-    z-index: 10; /* Higher z-index to ensure it's visible */
+    background-position: right center;
+
+    z-index: 10;
     pointer-events: none;
     display: block;
-}
-
-/* Show on all screen sizes for testing */
-@media (min-width: 769px) {
-    .snoopy-background {
-        width: 300px;
-        height: 300px;
-    }
-}
-
-@media (min-width: 1201px) {
-    .snoopy-background {
-        width: 350px;
-        height: 350px;
-    }
-}
-
-.content {
-    position: relative;
-    z-index: 2;
 }
 
 .teaser-text {
@@ -95,7 +80,6 @@ body {
     font-size: clamp(1.5rem, 6vw, 3rem);
     margin-bottom: clamp(2rem, 8vw, 4rem);
     animation: fadeInScale 1s ease;
-    text-shadow: none;
 }
 
 .main-button {
