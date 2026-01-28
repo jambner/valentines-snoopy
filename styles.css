@@ -54,28 +54,29 @@ body {
 }
 
 /* Snoopy peeking over the wall on the left side */
+/* 
 .snoopy-background {
     position: absolute;
     left: 0;
-    top: 0; /* Start from top */
-    bottom: 0; /* Stretch to bottom */
-    width: auto; /* Let width adjust to maintain aspect ratio */
-    height: 100vh; /* Full viewport height */
+    top: 0; // Start from top
+    bottom: 0; // Stretch to bottom
+    width: auto; // Let width adjust to maintain aspect ratio 
+    height: 100vh; // Full viewport height
     background-image: url('media/snoopyPeek.gif');
-    background-size: contain; /* Contain will fit it without cropping, but may not fill */
+    background-size: contain; // Contain will fit it without cropping, but may not fill
     background-repeat: no-repeat;
     background-position: left center;
     z-index: 1;
     pointer-events: none;
     display: block;
 }
+*/
 
 /* Alternative: Use 'cover' to fill the entire height (may crop sides) */
-/* Uncomment this if you want it to fill top to bottom completely:
 .snoopy-background {
     background-size: cover;
 }
-*/
+ 
 
 /* Hide Snoopy on smaller screens */
 @media (max-width: 768px) {
