@@ -61,7 +61,7 @@ body {
     transform: translateY(-50%);
     width: clamp(150px, 25vw, 300px);
     height: clamp(150px, 25vw, 300px);
-    background-image: url('https://media.tenor.com/z_R18FAni3YAAAAM/snoopy-peep.gif');
+    background-image: url('media/snoopyPeep.gif');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;

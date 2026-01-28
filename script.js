@@ -38,7 +38,7 @@ const buttonContainer = document.querySelector('.button-container');
 // Array of funny reaction GIFs that appear when NO button moves
 // Using sneaky Snoopy peeking GIF
 const reactionGifs = [
-    'https://media.tenor.com/LM1w7EKwl_0AAAAM/sneaky-snoopy.gif',
+    'media/snoopyPeep.gif',
 ];
 
 // Detection radius for mouse/touch proximity to NO button (in pixels)
