@@ -57,16 +57,49 @@ body {
 .snoopy-background {
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(150px, 25vw, 300px);
-    height: clamp(150px, 25vw, 300px);
+    top: 0; /* Start from top */
+    bottom: 0; /* Stretch to bottom */
+    width: auto; /* Let width adjust to maintain aspect ratio */
+    height: 100vh; /* Full viewport height */
     background-image: url('media/snoopyPeek.gif');
-    background-size: contain;
+    background-size: contain; /* Contain will fit it without cropping, but may not fill */
     background-repeat: no-repeat;
     background-position: left center;
     z-index: 1;
     pointer-events: none;
+    display: block;
+}
+
+/* Alternative: Use 'cover' to fill the entire height (may crop sides) */
+/* Uncomment this if you want it to fill top to bottom completely:
+.snoopy-background {
+    background-size: cover;
+}
+*/
+
+/* Hide Snoopy on smaller screens */
+@media (max-width: 768px) {
+    .snoopy-background {
+        display: none;
+    }
+}
+
+/* On medium screens, use partial height to avoid excessive stretching */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .snoopy-background {
+        height: 80vh; /* Use 80% of viewport height */
+        top: 10vh; /* Center it vertically */
+        bottom: auto;
+    }
+}
+
+/* On large screens, can use full height */
+@media (min-width: 1201px) {
+    .snoopy-background {
+        height: 100vh;
+        top: 0;
+        bottom: 0;
+    }
 }
 
 .content {
