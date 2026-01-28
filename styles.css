@@ -117,9 +117,21 @@ body {
 .question-text {
     color: black;
     font-size: clamp(1.8rem, 7vw, 3.5rem);
-    margin-bottom: clamp(3rem, 10vw, 5rem);
+    margin-bottom: clamp(2rem, 6vw, 3rem);
     animation: fadeInScale 0.6s ease;
     text-shadow: none;
+}
+
+/* Snoopy love GIF on Page 2 */
+.snoopy-love {
+    margin: clamp(1rem, 4vw, 2rem) auto;
+    animation: fadeInScale 0.8s ease 0.3s backwards;
+}
+
+.snoopy-love img {
+    width: clamp(120px, 25vw, 200px);
+    height: auto;
+    border-radius: 10px;
 }
 
 /* Button container with relative positioning for absolute button placement */
@@ -147,16 +159,17 @@ body {
 }
 
 .yes-button {
-    background: #4CAF50;
+    background: black;
     color: white;
     position: relative;
     z-index: 10;
+    border: none;
 }
 
 .yes-button:hover {
-    background: #45a049;
+    background: #333;
     transform: scale(1.1) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .yes-button:active {
@@ -178,11 +191,16 @@ body {
 }
 
 .no-button {
-    background: #f44336;
-    color: white;
+    background: white;
+    color: black;
+    border: 2px solid black;
     position: relative;
     z-index: 5;
     margin: 0; /* Remove any default margins */
+}
+
+.no-button:hover {
+    background: #f0f0f0;
 }
 
 /* ========================================
