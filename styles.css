@@ -54,52 +54,34 @@ body {
 }
 
 /* Snoopy peeking over the wall on the left side */
-/* 
 .snoopy-background {
     position: absolute;
     left: 0;
-    top: 0; // Start from top
-    bottom: 0; // Stretch to bottom
-    width: auto; // Let width adjust to maintain aspect ratio 
-    height: 100vh; // Full viewport height
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    height: 250px;
     background-image: url('media/snoopyPeek.gif');
-    background-size: contain; // Contain will fit it without cropping, but may not fill
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: left center;
-    z-index: 1;
+    z-index: 10; /* Higher z-index to ensure it's visible */
     pointer-events: none;
     display: block;
 }
-*/
 
-/* Alternative: Use 'cover' to fill the entire height (may crop sides) */
-.snoopy-background {
-    background-size: cover;
-}
- 
-
-/* Hide Snoopy on smaller screens */
-@media (max-width: 768px) {
+/* Show on all screen sizes for testing */
+@media (min-width: 769px) {
     .snoopy-background {
-        display: none;
+        width: 300px;
+        height: 300px;
     }
 }
 
-/* On medium screens, use partial height to avoid excessive stretching */
-@media (min-width: 769px) and (max-width: 1200px) {
-    .snoopy-background {
-        height: 80vh; /* Use 80% of viewport height */
-        top: 10vh; /* Center it vertically */
-        bottom: auto;
-    }
-}
-
-/* On large screens, can use full height */
 @media (min-width: 1201px) {
     .snoopy-background {
-        height: 100vh;
-        top: 0;
-        bottom: 0;
+        width: 350px;
+        height: 350px;
     }
 }
 
@@ -243,13 +225,13 @@ body {
 
 .gif-container {
     pointer-events: none;
-    z-index: 100;
+    z-index: 1; /* Lower z-index so it appears behind the NO button */
     opacity: 0;
     transition: opacity 0.3s ease;
-    background-color: rgba(255, 0, 0, 0.5); /* Red background for visibility */
     padding: 10px;
     border-radius: 10px;
-    margin-bottom: 10px; /* Gap between GIF and button */
+    margin-bottom: -72.5px;
+    margin-left: -62px; 
     display: none; /* Hidden by default */
 }
 
@@ -262,7 +244,7 @@ body {
     width: clamp(100px, 20vw, 150px);
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    /* Shadow removed for clean look */
 }
 
 /* ========================================
