@@ -154,25 +154,58 @@ function getRandomPosition() {
 
 /**
  * Displays a reaction GIF above the NO button
- * The GIF is positioned relative to the wrapper, so it moves with the button
+ * Calculates the exact position after a brief delay to ensure button has moved
  */
 function showGif() {
-    // Create img element for the GIF
-    const img = document.createElement('img');
-    img.src = reactionGifs[0]; // Always use the Snoopy GIF
-    img.alt = 'Sneaky Snoopy';
-    
-    // Clear previous GIF and add new one
-    gifContainer.innerHTML = '';
-    gifContainer.appendChild(img);
-    
-    // Show the GIF (positioning is handled by CSS)
-    gifContainer.classList.add('show');
-    
-    // Hide GIF after 1.5 seconds
+    // Small delay to ensure the button position is updated
     setTimeout(() => {
-        gifContainer.classList.remove('show');
-    }, 1500);
+        // Get the current position of the NO button
+        const noBtnRect = noBtn.getBoundingClientRect();
+        
+        // Create img element for the GIF
+        const img = document.createElement('img');
+        img.src = reactionGifs[0]; // Always use the Snoopy GIF
+        img.alt = 'Sneaky Snoopy';
+        
+        // Clear previous GIF and add new one
+        gifContainer.innerHTML = '';
+        gifContainer.appendChild(img);
+        
+        // Wait for image to load to get actual dimensions, or use estimates
+        // The container has 10px padding on all sides (from CSS)
+        const containerPadding = 10;
+        const imgWidth = 150; // From CSS clamp
+        const containerWidth = imgWidth + (containerPadding * 2); // 170px total
+        const containerHeight = 170; // Approximate with padding
+        
+        // Calculate position to center horizontally and touch top of button
+        const leftPosition = noBtnRect.left + (noBtnRect.width / 2) - (containerWidth / 2);
+        const topPosition = noBtnRect.top - containerHeight; // Touch the top of NO button
+        
+        console.log('NO Button position:', {
+            left: noBtnRect.left,
+            top: noBtnRect.top,
+            width: noBtnRect.width,
+            height: noBtnRect.height
+        });
+        console.log('GIF Container position:', {
+            left: leftPosition,
+            top: topPosition,
+            width: containerWidth,
+            height: containerHeight
+        });
+        
+        gifContainer.style.left = `${leftPosition}px`;
+        gifContainer.style.top = `${topPosition}px`;
+        
+        // Show the GIF
+        gifContainer.classList.add('show');
+        
+        // Hide GIF after 1.5 seconds
+        setTimeout(() => {
+            gifContainer.classList.remove('show');
+        }, 1500);
+    }, 100); // Increased delay to 100ms for more reliable positioning
 }
 
 /**
@@ -187,13 +220,13 @@ function moveNoButton() {
     // Switch wrapper to absolute positioning on first move
     noButtonWrapper.style.position = 'absolute';
     
-    // Show the GIF
-    showGif();
-    
     // Generate and apply new position to the wrapper
     const newPosition = getRandomPosition();
     noButtonWrapper.style.left = newPosition.left;
     noButtonWrapper.style.top = newPosition.top;
+    
+    // Show the GIF after button has moved (delay allows position to update)
+    showGif();
     
     // Re-enable movement after animation completes
     setTimeout(() => {
