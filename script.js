@@ -154,58 +154,56 @@ function getRandomPosition() {
 
 /**
  * Displays a reaction GIF above the NO button
- * Calculates the exact position after a brief delay to ensure button has moved
+ * Positions it to touch the top of the NO button
  */
 function showGif() {
-    // Small delay to ensure the button position is updated
-    setTimeout(() => {
-        // Get the current position of the NO button
-        const noBtnRect = noBtn.getBoundingClientRect();
-        
-        // Create img element for the GIF
-        const img = document.createElement('img');
-        img.src = reactionGifs[0]; // Always use the Snoopy GIF
-        img.alt = 'Sneaky Snoopy';
-        
-        // Clear previous GIF and add new one
-        gifContainer.innerHTML = '';
-        gifContainer.appendChild(img);
-        
-        // Wait for image to load to get actual dimensions, or use estimates
-        // The container has 10px padding on all sides (from CSS)
-        const containerPadding = 10;
-        const imgWidth = 150; // From CSS clamp
-        const containerWidth = imgWidth + (containerPadding * 2); // 170px total
-        const containerHeight = 170; // Approximate with padding
-        
-        // Calculate position to center horizontally and touch top of button
-        const leftPosition = noBtnRect.left + (noBtnRect.width / 2) - (containerWidth / 2);
-        const topPosition = noBtnRect.top - containerHeight; // Touch the top of NO button
-        
-        console.log('NO Button position:', {
-            left: noBtnRect.left,
-            top: noBtnRect.top,
-            width: noBtnRect.width,
-            height: noBtnRect.height
-        });
-        console.log('GIF Container position:', {
-            left: leftPosition,
-            top: topPosition,
-            width: containerWidth,
-            height: containerHeight
-        });
-        
-        gifContainer.style.left = `${leftPosition}px`;
-        gifContainer.style.top = `${topPosition}px`;
-        
-        // Show the GIF
-        gifContainer.classList.add('show');
-        
-        // Hide GIF after 1.5 seconds
-        setTimeout(() => {
-            gifContainer.classList.remove('show');
-        }, 1500);
-    }, 100); // Increased delay to 100ms for more reliable positioning
+    console.log('showGif() called');
+    
+    // Get the current position of the NO button
+    const noBtnRect = noBtn.getBoundingClientRect();
+    
+    console.log('NO Button getBoundingClientRect:', {
+        left: noBtnRect.left,
+        top: noBtnRect.top,
+        width: noBtnRect.width,
+        height: noBtnRect.height,
+        right: noBtnRect.right,
+        bottom: noBtnRect.bottom
+    });
+    
+    // Create img element for the GIF
+    const img = document.createElement('img');
+    img.src = reactionGifs[0]; // Always use the Snoopy GIF
+    img.alt = 'Sneaky Snoopy';
+    
+    // Clear previous GIF and add new one
+    gifContainer.innerHTML = '';
+    gifContainer.appendChild(img);
+    
+    // The container has 10px padding on all sides (from CSS)
+    const containerPadding = 10;
+    const imgWidth = 150; // From CSS clamp
+    const containerWidth = imgWidth + (containerPadding * 2); // 170px total
+    const containerHeight = 170; // Approximate with padding
+    
+    // Calculate position to center horizontally and touch top of button
+    const leftPosition = noBtnRect.left + (noBtnRect.width / 2) - (containerWidth / 2);
+    const topPosition = noBtnRect.top - containerHeight; // Touch the top of NO button
+    
+    console.log('Setting GIF Container position:', {
+        left: leftPosition,
+        top: topPosition,
+        containerWidth: containerWidth,
+        containerHeight: containerHeight,
+        calculation: `Button top (${noBtnRect.top}) - Container height (${containerHeight}) = ${topPosition}`
+    });
+    
+    gifContainer.style.left = `${leftPosition}px`;
+    gifContainer.style.top = `${topPosition}px`;
+    
+    // Show the GIF
+    gifContainer.classList.add('show');
+    console.log('GIF Container should now be visible with class "show"');
 }
 
 /**
@@ -259,6 +257,26 @@ function checkProximityAndMove(clientX, clientY) {
 // EVENT LISTENERS FOR NO BUTTON EVASION
 // ========================================
 
+// Mouse hover on NO button (desktop) - just show GIF for now
+noBtn.addEventListener('mouseenter', (e) => {
+    console.log('Mouse entered NO button');
+    showGif();
+});
+
+// Mouse leave NO button
+noBtn.addEventListener('mouseleave', (e) => {
+    console.log('Mouse left NO button');
+    gifContainer.classList.remove('show');
+});
+
+// Touch on NO button (mobile) - just show GIF for now
+noBtn.addEventListener('touchstart', (e) => {
+    console.log('Touch on NO button');
+    e.preventDefault();
+    showGif();
+});
+
+/* COMMENTED OUT - Movement logic disabled for testing
 // Mouse movement detection (desktop)
 buttonContainer.addEventListener('mousemove', (e) => {
     checkProximityAndMove(e.clientX, e.clientY);
@@ -283,6 +301,7 @@ noBtn.addEventListener('touchstart', (e) => {
     e.preventDefault();
     moveNoButton();
 });
+*/
 
 // ========================================
 // YES BUTTON - PROCEED TO CELEBRATION
